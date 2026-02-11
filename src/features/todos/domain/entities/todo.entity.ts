@@ -1,4 +1,15 @@
 import { TodoStatus } from "../enums/todo-status.enum";
+import { InvalidTodoException } from "../exceptions/invalid-todo.exception";
+import { InvalidTodoStatusTransitionException } from "../exceptions/invalid-todo-status-transition.exception";
+
+export interface TodoProps {
+  id: number;
+  title: string;
+  description: string;
+  status: TodoStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export default class Todo {
   private readonly id: number;
@@ -8,20 +19,25 @@ export default class Todo {
   private readonly createdAt: Date;
   private updatedAt: Date;
 
-  constructor(todo: {
-    id: number;
-    title: string;
-    description: string;
-    status: TodoStatus;
-    createdAt: Date;
-    updatedAt: Date;
-  }) {
-    this.id = todo.id;
-    this.title = todo.title;
-    this.description = todo.description;
-    this.status = todo.status;
-    this.createdAt = todo.createdAt;
-    this.updatedAt = todo.updatedAt;
+  constructor(props: TodoProps) {
+    this.validateProps(props);
+
+    this.id = props.id;
+    this.title = props.title;
+    this.description = props.description;
+    this.status = props.status;
+    this.createdAt = props.createdAt;
+    this.updatedAt = props.updatedAt;
+  }
+
+  private validateProps(props: TodoProps): void {
+    if (!props.title.trim()) {
+      throw new InvalidTodoException("title cannot be empty.");
+    }
+
+    if (!props.description.trim()) {
+      throw new InvalidTodoException("description cannot be empty.");
+    }
   }
 
   getId(): number {
@@ -33,6 +49,10 @@ export default class Todo {
   }
 
   setTitle(title: string): void {
+    if (!title.trim()) {
+      throw new InvalidTodoException("title cannot be empty.");
+    }
+
     this.title = title;
     this.touchUpdatedAt();
   }
@@ -42,6 +62,10 @@ export default class Todo {
   }
 
   setDescription(description: string): void {
+    if (!description.trim()) {
+      throw new InvalidTodoException("description cannot be empty.");
+    }
+
     this.description = description;
     this.touchUpdatedAt();
   }
@@ -63,24 +87,39 @@ export default class Todo {
   }
 
   start(): void {
-    if (this.status === TodoStatus.IN_PROGRESS)
-      throw new Error("Todo is already in progress.");
+    if (this.status === TodoStatus.IN_PROGRESS) {
+      throw new InvalidTodoStatusTransitionException(this.status, TodoStatus.IN_PROGRESS);
+    }
 
-    if (this.status === TodoStatus.COMPLETED)
-      throw new Error("Cannot start a completed todo.");
+    if (this.status === TodoStatus.COMPLETED) {
+      throw new InvalidTodoStatusTransitionException(this.status, TodoStatus.IN_PROGRESS);
+    }
 
     this.status = TodoStatus.IN_PROGRESS;
     this.touchUpdatedAt();
   }
 
   complete(): void {
-    if (this.status === TodoStatus.PENDING)
-      throw new Error("Cannot complete a pending todo.");
+    if (this.status === TodoStatus.PENDING) {
+      throw new InvalidTodoStatusTransitionException(this.status, TodoStatus.COMPLETED);
+    }
 
-    if (this.status === TodoStatus.COMPLETED)
-      throw new Error("Todo is already completed.");
+    if (this.status === TodoStatus.COMPLETED) {
+      throw new InvalidTodoStatusTransitionException(this.status, TodoStatus.COMPLETED);
+    }
 
     this.status = TodoStatus.COMPLETED;
     this.touchUpdatedAt();
+  }
+
+  clone(): Todo {
+    return new Todo({
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      status: this.status,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    });
   }
 }
