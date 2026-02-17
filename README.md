@@ -1,124 +1,112 @@
-# 🏗️ React Hexagonal Architecture + Vertical Slicing
+🏗️ React Hexagonal Architecture + Vertical Slicing
+Example project to demonstrate the implementation of Hexagonal Architecture (Ports & Adapters) combined with Vertical Slicing in a modern React application with TypeScript.
 
-> Proyecto de ejemplo para demostrar la implementación de **Arquitectura Hexagonal** (Ports & Adapters) combinada con **Vertical Slicing** en una aplicación React moderna con TypeScript.
+📖 About this project
+This is an educational project that implements a task management application (Todos) following Clean Architecture principles and advanced design patterns. The goal is to show how to structure React applications in a scalable, maintainable, and testable way.
 
-## 📖 Sobre este proyecto
+Implemented architectural patterns:
+🔷 Hexagonal Architecture: Layer separation (Domain, Application, Infrastructure)
 
-Este es un proyecto educativo que implementa una aplicación de gestión de tareas (Todos) siguiendo principios de **Clean Architecture** y patrones de diseño avanzados. El objetivo es mostrar cómo estructurar aplicaciones React de forma escalable, mantenible y testeable.
+📊 Vertical Slicing: Organization by features instead of technical type
 
-### Patrones arquitectónicos implementados:
+🎯 Domain-Driven Design: Rich entities with business logic
 
-- **🔷 Arquitectura Hexagonal**: Separación en capas (Domain, Application, Infrastructure)
-- **📊 Vertical Slicing**: Organización por features en lugar de por tipo técnico
-- **🎯 Domain-Driven Design**: Entidades ricas con lógica de negocio
-- **🔌 Ports & Adapters**: Inversión de dependencias y desacoplamiento
-- **✅ Test-Driven Friendly**: Arquitectura diseñada para facilitar el testing
+🔌 Ports & Adapters: Dependency inversion and decoupling
 
-## 🗂️ Estructura del Proyecto
+✅ Test-Driven Friendly: Architecture designed to facilitate testing
 
-```
+🗂️ Project Structure
 src/
 └── features/
     └── todos/                         # Feature vertical slice
-        ├── domain/                    # 🔵 Capa de Dominio
-        │   ├── entities/              # Entidades con lógica de negocio
-        │   ├── enums/                 # Enumeraciones de dominio
-        │   ├── exceptions/            # Excepciones de dominio
-        │   └── ports/                 # Interfaces (contratos)
+        ├── domain/                    # 🔵 Domain Layer
+        │   ├── entities/              # Entities with business logic
+        │   ├── enums/                 # Domain enumerations
+        │   ├── exceptions/            # Domain exceptions
+        │   └── ports/                 # Interfaces (contracts)
         │
-        ├── application/               # 🟢 Capa de Aplicación
-        │   └── services/              # Casos de uso y servicios
+        ├── application/               # 🟢 Application Layer
+        │   └── services/              # Use cases and services
         │       └── dtos/              # Data Transfer Objects
         │
-        └── infrastructure/            # 🟡 Capa de Infraestructura
-            ├── adapters/              # Implementaciones concretas
-            ├── factories/             # Inyección de dependencias
+        └── infrastructure/            # 🟡 Infrastructure Layer
+            ├── adapters/              # Concrete implementations
+            ├── factories/             # Dependency injection
             ├── stores/                # State management (Zustand)
-            └── ui/                    # Componentes React
+            └── ui/                    # React components
                 ├── components/
                 └── pages/
-```
+🚀 Installation and Setup
+Prerequisites
+Node.js 18+
 
-## 🚀 Instalación y Ejecución
+npm or yarn
 
-### Requisitos previos
-- Node.js 18+
-- npm o yarn
-
-### Instalar dependencias
-```bash
+Install dependencies
+Bash
 npm install
-```
-
-### Ejecutar en modo desarrollo
-```bash
+Run in development mode
+Bash
 npm run dev
-```
-
-### Ejecutar tests
-```bash
+Run tests
+Bash
 npm run test
-```
-
-### Build para producción
-```bash
+Build for production
+Bash
 npm run build
-```
+🛠️ Tech Stack
+React 19 - UI Library
 
-## 🛠️ Stack Tecnológico
+TypeScript 5.9 - Static typing
 
-- **React 19** - Biblioteca de UI
-- **TypeScript 5.9** - Tipado estático
-- **Vite 7** - Build tool y dev server
-- **Vitest 4** - Framework de testing
-- **React Router 7** - Enrutamiento
-- **Zustand 5** - State management
-- **TailwindCSS 4** - Estilos utility-first
+Vite 7 - Build tool and dev server
 
-## 🎓 Conceptos Clave
+Vitest 4 - Testing framework
 
-### Arquitectura Hexagonal (Puertos y Adaptadores)
+React Router 7 - Routing
 
-La aplicación está dividida en tres capas concéntricas:
+Zustand 5 - State management
 
-1. **Dominio (Core)**: Lógica de negocio pura, sin dependencias externas
-2. **Aplicación**: Casos de uso que orquestan el dominio
-3. **Infraestructura**: Adaptadores técnicos (UI, repositories, APIs)
+TailwindCSS 4 - Utility-first styling
 
-### Vertical Slicing
+🎓 Key Concepts
+Hexagonal Architecture (Ports and Adapters)
+The application is divided into three concentric layers:
 
-En lugar de organizar el código por tipo técnico (components/, services/, types/), lo organizamos por **features completas** (todos/, users/, etc.). Cada feature contiene todas sus capas de arquitectura.
+Domain (Core): Pure business logic, with no external dependencies
 
-**Ventajas:**
-- ✅ Alta cohesión, bajo acoplamiento
-- ✅ Desarrollo en paralelo sin conflictos
-- ✅ Features fáciles de eliminar o extraer
-- ✅ Onboarding simplificado
+Application: Use cases that orchestrate the domain
 
-## 🧪 Testing
+Infrastructure: Technical adapters (UI, repositories, APIs)
 
-El proyecto incluye tests unitarios en tres niveles:
+Vertical Slicing
+Instead of organizing code by technical type (components/, services/, types/), we organize it by complete features (todos/, users/, etc.). Each feature contains all its architectural layers.
 
-```bash
+Advantages:
+
+✅ High cohesion, low coupling
+
+✅ Parallel development without conflicts
+
+✅ Features are easy to remove or extract
+
+✅ Simplified onboarding
+
+🧪 Testing
+The project includes unit tests across three levels:
+
+Bash
 src/tests/
-├── domain/           # Tests de entidades y lógica de negocio
-├── application/      # Tests de servicios
-└── infrastructure/   # Tests de componentes UI
-```
+├── domain/           # Entity and business logic tests
+├── application/      # Service tests
+└── infrastructure/   # UI component tests
+📚 Full Documentation
+For a detailed explanation of the architecture, patterns, and design decisions, please refer to the full article in ARTICLE.md.
 
-## 📚 Documentación Completa
+👤 Author
+Carlos Martinez Computer Systems Engineer | Full Stack Web Developer
 
-Para una explicación detallada de la arquitectura, patrones y decisiones de diseño, consulta el artículo completo en [ARTICLE.md](ARTICLE.md).
+📄 License
+MIT License - This project is open-source and available for educational use.
 
-## 👤 Autor
-
-**Carlos Martinez**  
-Ingeniero en Sistemas Computacionales | Desarrollador Web Full Stack
-
-## 📄 Licencia
-
-MIT License - Este proyecto es de código abierto y está disponible para uso educativo.
-
----
-
-⭐ Si este proyecto te ayudó a comprender mejor la Arquitectura Hexagonal en React, considera darle una estrella
+⭐ If this project helped you better understand Hexagonal Architecture in React, consider giving it a star!
